@@ -5,13 +5,13 @@ import PizzaBlock from '../components/PizzaBlock'
 import Categories from '../components/Categories'
 import Sort from '../components/Sort'
 import Skeleton from '../components/PizzaBlock/Skeleton'
+import Pagination from '../components/Pagination'
 
-const Home = () => {
+const Home = ({ searchValue }) => {
 
     const [pizzas, setPizzas] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [categoryId, setCategoryId] = useState(0)
-
     const [sortType, setSortType] = useState({
         name: 'популярности',
         sortProperty: 'rating'
@@ -19,7 +19,11 @@ const Home = () => {
 
     useEffect(() => {
             setIsLoading(true)
-            fetch(`http://localhost:3002/pizzas/category/${categoryId}`)
+
+            fetch(`https://64932c79428c3d2035d17405.mockapi.io/pizzas?${
+                categoryId > 0 ? `category=${categoryId}` :
+                ''}&sortBy=${sortType.sortProperty}&order=desc`
+            )
             .then((res) => res.json())
             .then((json) => {
                 setPizzas(json)
@@ -27,6 +31,12 @@ const Home = () => {
             })
 
     }, [categoryId, sortType])
+
+    const skeletons = [...new Array(10)].map((_, index) => <Skeleton key={index} />)
+
+    const renderSearchingPizzas = pizzas.filter(item => 
+            item.title.toLowerCase().includes(searchValue.toLowerCase()))
+            .map((obj) => (<PizzaBlock key={obj.id} {...obj} />))
 
     return (
         <>
@@ -37,16 +47,10 @@ const Home = () => {
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
                 {
-                    isLoading
-                    ? [...new Array(10)].map((_, index) => <Skeleton key={index} />)
-                    : pizzas.map((obj) => (
-                        <PizzaBlock
-                            key={obj.id}
-                            {...obj}
-                        />
-                    ))
+                    isLoading ? skeletons : renderSearchingPizzas
                 }
             </div>
+            <Pagination />
         </>
     )
 }
