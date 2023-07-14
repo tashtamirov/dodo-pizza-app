@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSort } from '../redux/slices/categoriesSlice'
+import { setSort } from '../redux/slices/filterSlice'
 
 const Sort = () => {
 
-    const sortType = useSelector(state => state.categoriesSlice.sort)
+    const sortType = useSelector(state => state.filterSlice.sort)
 
     const [open, setOpen] = useState(false)
 
