@@ -1,19 +1,26 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../redux/rootReducer'
 
 import { setSearchValue } from '../../redux/slices/filterSlice'
 import styles from './Search.module.scss'
 
-const Search = () => {
+const Search: React.FC = () => {
 
-    const { searchValue } = useSelector(state => state.filterSlice)
+    const { searchValue } = useSelector((state: RootState) => state.filterSlice)
 
     const dispatch = useDispatch()
-    const inputRef = React.useRef()
+    const inputRef = React.useRef<HTMLInputElement>(null)
 
     const onClickClear = () => {
+
         dispatch(setSearchValue(''))
-        inputRef.current.focus()
+
+        if (inputRef.current) {
+            inputRef.current.focus()
+        }
+        // либо inputRef.current?.focus()  ? - это оператор опциональной последовательности
+        
     }
 
     return (

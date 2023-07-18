@@ -30,7 +30,6 @@ const pizzaSlice = createSlice({
         builder
         .addCase(getPizzas.pending, (state) => {
             state.status = 'Pending'
-            // state.items = []
         })
 
         .addCase(getPizzas.fulfilled, (state, action) => {

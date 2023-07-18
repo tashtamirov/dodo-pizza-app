@@ -1,13 +1,17 @@
+import React from 'react'
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-
 import Preloader from "./Preloader"
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
 
     const { id } = useParams()
-    const [pizza, setPizza] = useState()
+    const [pizza, setPizza] = useState<{
+        imageUrl: string,
+        title: string,
+        price: number
+    }>()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -30,8 +34,6 @@ const FullPizza = () => {
         )
     }
 
-    
-    
     return (
         <div className="container">
             <img src={pizza.imageUrl} alt='pizza' />
@@ -41,7 +43,5 @@ const FullPizza = () => {
     )
 
 }
-
-
 
 export default FullPizza

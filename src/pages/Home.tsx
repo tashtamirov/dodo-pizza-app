@@ -1,7 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-// import { Link } from 'react-router-dom'
 
 import PizzaBlock from '../components/PizzaBlock'
 import Categories from '../components/Categories'
@@ -11,39 +10,43 @@ import Pagination from '../components/Pagination'
 import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice'
 import { getPizzas } from '../redux/slices/pizzaSlice'
 import Preloader from '../components/Preloader'
+import { RootState } from '../redux/rootReducer'
 
-const Home = () => {
+
+const Home: React.FC = () => {
 
     const dispatch = useDispatch()
 
-    const { items, status } = useSelector(state => state.pizzaSlice)
+    const { items, status } = useSelector((state: RootState) => state.pizzaSlice)
 
-    const categoryId = useSelector(state => state.filterSlice.categoryId)
-    const sortType = useSelector(state => state.filterSlice.sort)
-    const currentPage = useSelector(state => state.filterSlice.currentPage)
-    const { searchValue } = useSelector(state => state.filterSlice)
+    const categoryId = useSelector((state: RootState) => state.filterSlice.categoryId)
+    const sortType = useSelector((state: RootState) => state.filterSlice.sort)
+    const currentPage = useSelector((state: RootState) => state.filterSlice.currentPage)
+    const { searchValue } = useSelector((state: RootState) => state.filterSlice)
 
-    const onChangeCategory = (id) => {
+    const onChangeCategory = (id: number) => {
         dispatch(setCategoryId(id))
     }
 
-    const handleCurrentPage = (number) => {
-        dispatch(setCurrentPage(number))
+    const handleCurrentPage = (page: number) => {
+        dispatch(setCurrentPage(page))
     }
 
     useEffect(() => {
-        dispatch(getPizzas({
+        dispatch(
+            //@ts-ignore
+            getPizzas({
             categoryId,
             sortType,
             currentPage
         }))
     }, [categoryId, sortType, currentPage, dispatch])
-
+       //@ts-ignore
     const skeletons = [...new Array(4)].map((_, index) => <Skeleton key={index} />)
 
-    const renderSearchingPizzas = items.filter(item =>
+    const renderSearchingPizzas = items.filter((item: any) =>
         item.title.toLowerCase().includes(searchValue.toLowerCase()))
-        .map((obj) => (<PizzaBlock key={obj.id} {...obj} />))
+        .map((obj: any) => (<PizzaBlock key={obj.id} {...obj} />))
 
         if (status === 'Pending') {
             return (
@@ -62,7 +65,7 @@ const Home = () => {
                 {status === 'Error'
                     ? (
                         <div>
-                            <h2>Ошибка<icon>😕</icon></h2>
+                            <h2>Ошибка😕</h2>
                             <br />
                             <p>
                                 Не удалось получить питтсы :( Ошибка отправки запроса...
