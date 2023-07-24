@@ -12,9 +12,7 @@ import { getPizzas } from '../redux/slices/pizzaSlice'
 import Preloader from '../components/Preloader'
 import { RootState } from '../redux/rootReducer'
 
-
 const Home: React.FC = () => {
-
     const dispatch = useDispatch()
 
     const { items, status } = useSelector((state: RootState) => state.pizzaSlice)
@@ -24,9 +22,9 @@ const Home: React.FC = () => {
     const currentPage = useSelector((state: RootState) => state.filterSlice.currentPage)
     const { searchValue } = useSelector((state: RootState) => state.filterSlice)
 
-    const onChangeCategory = (id: number) => {
+    const onChangeCategory = ((id: number) => {
         dispatch(setCategoryId(id))
-    }
+    })
 
     const handleCurrentPage = (page: number) => {
         dispatch(setCurrentPage(page))

@@ -13,7 +13,11 @@ const Sort = () => {
   type SortsItem = {
     name: string;
     sortProperty: string;
-  };
+  }
+
+  // type PopUpCLick = MouseEvent & {
+  //   path: Node[]
+  // }
 
   const sorts: SortsItem[] = [
     { name: "популярности", sortProperty: "rating" },
@@ -27,11 +31,13 @@ const Sort = () => {
   };
 
   useEffect(() => {
-    // const handleClickOutside = (event: any) => {
-    //   if (!event.path.includes(sortRef.current)) {
-    //     setOpen(false);
+    //  const handleClickOutside = (event: MouseEvent) => {
+    //    const _event = event as PopUpCLick
+
+    //  if (sortRef.current && !_event.path.includes(sortRef.current)) {
+    //    setOpen(false);
     //   }
-    // };
+    // }
     const handleClickOutside = (event: MouseEvent) => {
       const path = (event as any).path || (event.composedPath && event.composedPath());
       if (path && !path.includes(sortRef.current)) {
@@ -41,7 +47,7 @@ const Sort = () => {
     document.body.addEventListener("click", handleClickOutside);
 
     return () => document.body.removeEventListener("click", handleClickOutside);
-  }, []);
+  }, [])
 
   return (
     <div ref={sortRef} className="sort">
